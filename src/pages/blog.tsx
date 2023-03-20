@@ -9,8 +9,14 @@ const BlogPage = ({ data }: PageProps<Queries.Query>) => {
     return (
         <Layout pageTitle={title}>
             <ul>
-                {data.allFile.nodes.map((node) => {
-                    return <li key={node.name}>{node.name}</li>;
+                {data.allMdx.nodes.map((node) => {
+                    return (
+                        <article key={node.id}>
+                            <h2>{node.frontmatter?.title}</h2>
+                            <p>Posted: {node.frontmatter?.date}</p>
+                            <p>{node.excerpt}</p>
+                        </article>
+                    );
                 })}
             </ul>
         </Layout>
@@ -19,9 +25,14 @@ const BlogPage = ({ data }: PageProps<Queries.Query>) => {
 
 export const query = graphql`
     query {
-        allFile {
+        allMdx(sort: { frontmatter: { date: DESC } }) {
             nodes {
-                name
+                frontmatter {
+                    title
+                    date(formatString: "MMMM DD, YYYY")
+                }
+                id
+                excerpt
             }
         }
     }
