@@ -20,6 +20,7 @@ const config: GatsbyConfig = {
                 path: `${__dirname}/src/blog`,
             },
         },
+        'gatsby-transformer-sharp',
     ],
 };
 
